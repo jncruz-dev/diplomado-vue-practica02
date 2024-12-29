@@ -12,7 +12,7 @@
       </svg>
       Shopping List
     </div>
-    <div class="d-flex flex-row-reverse">
+    <div class="d-flex justify-content-end">
       <slot></slot>
     </div>
   </div>

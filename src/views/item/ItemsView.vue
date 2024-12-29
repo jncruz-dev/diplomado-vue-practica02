@@ -1,10 +1,6 @@
 <template>
   <div>
-    <Modal v-model:show="showModalAdd">
-      <AddGroupView />
-    </Modal>
-
-    <h1>Lista Grupos</h1>
+    <h1>Lista de Compra</h1>
     <div>
       <button class="btn btn-sm btn-primary" @click="showModalAdd = true">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -31,20 +27,66 @@
         </button>
       </div>
     </div>
+
+    <!-- Filter -->
+    <div style="margin: 20px 0; width: 30%">
+      <h5>Filtros:</h5>
+      <form @submit.prevent="filterData()">
+        <div class="input-group input-group-sm mb-3">
+          <label class="input-group-text" for="group">Grupo:</label>
+          <select class="form-select" id="group" v-model="filter.groupId">
+            <option value="">Todos</option>
+            <option :value="group.id" v-for="(group, index) in groupList" :key="`group-${index}`">
+              {{ group.name }}
+            </option>
+          </select>
+          <button type="submit" class="btn btn-outline-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-filter">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
+            </svg>
+            Fitrar
+          </button>
+        </div>
+      </form>
+    </div>
+
     <table class="table table-striped mt-3">
       <thead class="table-dark">
         <tr>
           <th>#</th>
+          <th style="width: 120px">Completado</th>
           <th>Nombre</th>
+          <th>Grupo</th>
+          <th>Unidad</th>
+          <th>Cantidad</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(group, index) in groupsList" :key="index">
+        <tr v-for="(item, index) in itemsList" :key="index">
           <td>{{ 1 + index }}</td>
-          <td>{{ group.name }}</td>
           <td>
-            <div class="d-flex flex-row-reverse" style="gap: 2px;">
+            <div class="d-flex justify-content-center">
+              <button type="button" class="btn btn-sm btn-outline-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 12l5 5l10 -10" />
+                </svg>
+              </button>
+            </div>
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.group.name }}</td>
+          <td>{{ item.unit }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>
+            <div class="d-flex justify-content-end" style="gap: 2px;">
               <button type="button" class="btn btn-sm btn-outline-dark">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -78,7 +120,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Modal from '@/components/Modal.vue'
-import AddGroupView from './AddGroupView.vue'
 
 export default {
   name: 'Group',
@@ -87,27 +128,49 @@ export default {
       currentPage: 1,
       showModalAdd: false,
       showModalEdit: false,
-      groupsList: [],
-      textToSearch: ''
+      itemsList: [],
+      groupList: [],
+      textToSearch: '',
+      textToFilter: '',
+      filter: {
+        groupId: ''
+      }
     }
   },
   components: {
     Modal,
-    AddGroupView
   },
   methods: {
     getList() {
       const self = this;
-      this.axios.get(this.baseUrl + '/groups?q=' + this.textToSearch)
+      this.axios.get(this.baseUrl + '/items?_expand=group' + this.textToFilter + '&q=' + this.textToSearch)
         .then(response => {
           console.log(response);
-          self.groupsList = response.data;
+          self.itemsList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getGroupList() {
+      const self = this;
+      this.axios.get(this.baseUrl + '/groups')
+        .then(response => {
+          console.log(response);
+          self.groupList = response.data;
         })
         .catch(error => {
           console.log(error);
         });
     },
     search() {
+      this.getList();
+    },
+    filterData() {
+      this.textToFilter = '';
+      if (this.filter.groupId != null && this.filter.groupId != '') {
+        this.textToFilter += "&groupId=" + this.filter.groupId;
+      }
       this.getList();
     },
   },
@@ -120,6 +183,7 @@ export default {
   },
   mounted() {
     this.getList();
+    this.getGroupList();
   }
 }
 </script>

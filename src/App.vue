@@ -2,6 +2,7 @@
   <Menu>
     <router-link class="btn btn-sm" to="/">Home</router-link>
     <router-link class="btn btn-sm" to="/groups">Groups</router-link>
+    <router-link class="btn btn-sm" to="/items">Items</router-link>
     <router-link class="btn btn-sm" to="/about">About</router-link>
   </Menu>
   <div class="main px-4">

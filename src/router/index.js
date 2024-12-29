@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import GroupView from '../views/group/GroupView.vue'
+import ItemsView from '@/views/item/ItemsView.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/groups',
     name: 'groups',
     component: GroupView
+  },
+  {
+    path: '/items',
+    name: 'items',
+    component: ItemsView
   },
   {
     path: '/about',
