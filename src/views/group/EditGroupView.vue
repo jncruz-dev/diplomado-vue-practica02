@@ -3,9 +3,9 @@
     <template #default>
       <form @submit.prevent="submitForm()" v-if="form">
         <div class="form-group">
-          <label for="name" class="form-label">Name:</label>
-          <input type="text" id="name" v-model="form.name" :class="{ 'is-invalid': errors.name }"
-            placeholder="Nombre" />
+          <label for="name" class="form-label">Nombre:</label>
+          <input type="text" id="name" v-model="form.name" class="form-control"
+            :class="{ 'is-invalid': errors.name }" />
           <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
         </div>
       </form>

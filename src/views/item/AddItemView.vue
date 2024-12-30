@@ -3,15 +3,15 @@
     <template #default>
       <form @submit.prevent="submitForm()">
         <div class="form-group">
-          <label for="name" class="form-label">Name:</label>
-          <input type="text" id="name" v-model="form.name" :class="{ 'is-invalid': errors.name }"
-            placeholder="Nombre" />
+          <label for="name" class="form-label">Nombre:</label>
+          <input type="text" id="name" v-model="form.name" class="form-control"
+            :class="{ 'is-invalid': errors.name }" />
           <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
           <label for="group">Grupo:</label>
-          <select id="group" v-model="form.groupId" :class="{ 'is-invalid': errors.groupId }">
+          <select id="group" v-model="form.groupId" class="form-select" :class="{ 'is-invalid': errors.groupId }">
             <option :value="group.id" v-for="(group, index) in groupsList" :key="`group-${index}`">
               {{ group.name }}
             </option>
@@ -19,16 +19,16 @@
           <div v-if="errors.groupId" class="invalid-feedback">{{ errors.groupId }}</div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
           <label for="unit" class="form-label">Unidad:</label>
-          <input type="text" id="unit" v-model="form.unit" :class="{ 'is-invalid': errors.name }"
-            placeholder="Unidad" />
+          <input type="text" id="unit" v-model="form.unit" class="form-control"
+            :class="{ 'is-invalid': errors.name }" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
           <label for="quantity" class="form-label">Cantidad:</label>
-          <input type="text" id="quantity" v-model="form.quantity" :class="{ 'is-invalid': errors.name }"
-            placeholder="Cantidad" />
+          <input type="text" id="quantity" v-model="form.quantity" class="form-control"
+            :class="{ 'is-invalid': errors.name }" />
         </div>
       </form>
     </template>
