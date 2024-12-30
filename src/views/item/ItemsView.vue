@@ -1,5 +1,7 @@
 <template>
   <div>
+    <AddItemView v-model:showAdd="showModalAdd" @on-register="onAddItem()" />
+
     <h1>Lista de Compra</h1>
     <div>
       <button class="btn btn-sm btn-primary" @click="showModalAdd = true">
@@ -119,10 +121,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Modal from '@/components/Modal.vue'
+import AddItemView from './AddItemView.vue'
 
 export default {
-  name: 'Group',
+  name: 'ItemsView',
   data() {
     return {
       currentPage: 1,
@@ -138,7 +140,7 @@ export default {
     }
   },
   components: {
-    Modal,
+    AddItemView,
   },
   methods: {
     getList() {
@@ -172,6 +174,11 @@ export default {
         this.textToFilter += "&groupId=" + this.filter.groupId;
       }
       this.getList();
+    },
+    onAddItem() {
+      this.getList();
+      this.showModalAdd = false;
+      //this.$toast.show('Registro exitoso', 'success');
     },
   },
   computed: {
