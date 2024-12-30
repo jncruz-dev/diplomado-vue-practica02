@@ -1,6 +1,7 @@
 <template>
   <div>
     <AddItemView v-model:showAdd="showModalAdd" @on-register="onAddItem()" />
+    <EditItemView v-model:showEdit="showModalEdit" @on-update="onUpdateItem()" :item="itemToEdit" />
 
     <h1>Lista de Compra</h1>
     <div>
@@ -89,7 +90,7 @@
           <td>{{ item.quantity ? item.quantity : '-' }}</td>
           <td>
             <div class="d-flex justify-content-end" style="gap: 2px;">
-              <button type="button" class="btn btn-sm btn-outline-dark">
+              <button type="button" class="btn btn-sm btn-outline-dark" @click="editItem(item)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
@@ -122,6 +123,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import AddItemView from './AddItemView.vue'
+import EditItemView from './EditItemView.vue'
 
 export default {
   name: 'ItemsView',
@@ -134,6 +136,7 @@ export default {
       groupList: [],
       textToSearch: '',
       textToFilter: '',
+      itemToEdit: null,
       filter: {
         groupId: ''
       }
@@ -141,6 +144,7 @@ export default {
   },
   components: {
     AddItemView,
+    EditItemView
   },
   methods: {
     getList() {
@@ -179,6 +183,16 @@ export default {
       this.getList();
       this.showModalAdd = false;
       //this.$toast.show('Registro exitoso', 'success');
+    },
+    onUpdateItem() {
+      this.getList();
+      this.showModalEdit = false;
+      this.itemToEdit = null;
+      //this.$toast.show('Edicion exitosa', 'info');
+    },
+    editItem(item) {
+      this.itemToEdit = Object.assign({}, item);
+      this.showModalEdit = true;
     },
     deleteItem(id) {
       if (confirm("¿Esta Seguro de eliminar el registro?")) {
