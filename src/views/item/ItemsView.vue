@@ -182,13 +182,13 @@ export default {
     onAddItem() {
       this.getList();
       this.showModalAdd = false;
-      //this.$toast.show('Registro exitoso', 'success');
+      this.$toast.show('Item agregado exitosamente', 'success');
     },
     onUpdateItem() {
       this.getList();
       this.showModalEdit = false;
       this.itemToEdit = null;
-      //this.$toast.show('Edicion exitosa', 'info');
+      this.$toast.show('Item actualizado exitosamente', 'success');
     },
     editItem(item) {
       this.itemToEdit = Object.assign({}, item);
@@ -198,12 +198,13 @@ export default {
       if (confirm("¿Esta Seguro de eliminar el registro?")) {
         const vm = this;
         this.axios.delete(this.baseUrl + "/items/" + id)
-          .then(function (response) {
+          .then(function () {
             vm.getList();
-            //vm.$toast.show("Registro eliminado.", "danger");
+            vm.$toast.show("Registro eliminado.", "success");
           })
           .catch(function (error) {
             console.error(error);
+            vm.$toast.show("Error al eliminar registro.", "danger");
           });
       }
     },
@@ -212,10 +213,11 @@ export default {
       this.axios.delete(this.baseUrl + "/items/" + id)
         .then(function (response) {
           vm.getList();
-          //vm.$toast.show("Registro completado.", "danger");
+          vm.$toast.show("Registro completado.", "success");
         })
         .catch(function (error) {
           console.error(error);
+          vm.$toast.show("Error al actualizar registro.", "danger");
         });
     },
   },

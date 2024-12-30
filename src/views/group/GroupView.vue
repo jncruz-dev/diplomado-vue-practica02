@@ -113,13 +113,13 @@ export default {
     onAddGroup() {
       this.getList();
       this.showModalAdd = false;
-      //this.$toast.show('Registro exitoso', 'success');
+      this.$toast.show('Grupo agregado exitosamente', 'success');
     },
     onUpdateGroup() {
       this.getList();
       this.showModalEdit = false;
       this.groupToEdit = null;
-      //this.$toast.show('Edicion exitosa', 'info');
+      this.$toast.show('Grupo actualizado exitosamente', 'success');
     },
     editGroup(group) {
       this.groupToEdit = Object.assign({}, group);
@@ -129,12 +129,13 @@ export default {
       if (confirm("¿Esta Seguro de eliminar el registro?")) {
         const vm = this;
         this.axios.delete(this.baseUrl + "/groups/" + id)
-          .then(function (response) {
+          .then(function () {
             vm.getList();
-            //vm.$toast.show("Registro eliminado.", "danger");
+            vm.$toast.show("Registro eliminado.", "success");
           })
           .catch(function (error) {
             console.error(error);
+            vm.$toast.show("Error al eliminar registro.", "danger");
           });
       }
 
