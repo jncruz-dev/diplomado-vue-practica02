@@ -1,0 +1,21 @@
+Practica2 Vue3
+
+Nombre(s) de integrante(s):
+
+- Jhoans Nelson Cruz Quinteros
+
+Pasos para iniciar el proyecto
+
+- Iniciar base de datos
+
+  1. Abrir en la consola la carpeta `db`
+  2. Ejecutar el comando:
+  
+    ````
+    json-server --watch db.json --port 4000
+    ```
+
+- Iniciar aplicación
+
+  1. npm install
+  2. npm run serve
