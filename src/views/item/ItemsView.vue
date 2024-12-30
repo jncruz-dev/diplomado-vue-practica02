@@ -85,8 +85,8 @@
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item.group.name }}</td>
-          <td>{{ item.unit }}</td>
-          <td>{{ item.quantity }}</td>
+          <td>{{ item.unit ? item.unit : '-' }}</td>
+          <td>{{ item.quantity ? item.quantity : '-' }}</td>
           <td>
             <div class="d-flex justify-content-end" style="gap: 2px;">
               <button type="button" class="btn btn-sm btn-outline-dark">
