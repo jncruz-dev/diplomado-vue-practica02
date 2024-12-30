@@ -86,7 +86,7 @@ export default {
       currentPage: 1,
       showModalAdd: false,
       showModalEdit: false,
-      groupToEdit: null,
+      groupToEdit: {},
       groupsList: [],
       textToSearch: ''
     }
@@ -118,7 +118,7 @@ export default {
     onUpdateGroup() {
       this.getList();
       this.showModalEdit = false;
-      this.groupToEdit = null;
+      this.groupToEdit = {};
       this.$toast.show('Grupo actualizado exitosamente', 'success');
     },
     editGroup(group) {

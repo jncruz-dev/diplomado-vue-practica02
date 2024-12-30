@@ -136,7 +136,7 @@ export default {
       groupList: [],
       textToSearch: '',
       textToFilter: '',
-      itemToEdit: null,
+      itemToEdit: {},
       filter: {
         groupId: ''
       }
@@ -187,7 +187,7 @@ export default {
     onUpdateItem() {
       this.getList();
       this.showModalEdit = false;
-      this.itemToEdit = null;
+      this.itemToEdit = {};
       this.$toast.show('Item actualizado exitosamente', 'success');
     },
     editItem(item) {

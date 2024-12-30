@@ -1,7 +1,7 @@
 <template>
   <Modal v-if="isVisible" title="Editar item">
     <template #default>
-      <form @submit.prevent="submitForm()">
+      <form @submit.prevent="submitForm()" v-if="form">
         <div class="form-group">
           <label for="name" class="form-label">Name:</label>
           <input type="text" id="name" v-model="form.name" :class="{ 'is-invalid': errors.name }"
@@ -117,7 +117,6 @@ export default {
           if (response.status == '200') {
             vm.$emit('on-update', response.data);
           }
-          vm.groupsList = response.data;
         })
         .catch(function (error) {
           console.error(error);
