@@ -1,7 +1,7 @@
 <template>
   <div>
-    <AddGroupView v-model:show="showModalAdd" @on-register="onAddGroup()" />
-    <EditGroupView v-model:show="showModalEdit" @on-update="onUpdateGroup()" :item="groupToEdit" />
+    <AddGroupView v-model:showAdd="showModalAdd" @on-register="onAddGroup()" />
+    <EditGroupView v-model:showEdit="showModalEdit" @on-update="onUpdateGroup()" :item="groupToEdit" />
 
     <h1>Lista Grupos</h1>
     <div>

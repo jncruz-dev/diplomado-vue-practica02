@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model:visible="show" title="Agregar grupo">
+  <Modal v-if="isVisible" title="Agregar grupo">
     <template #default>
       <form @submit.prevent="submitForm()">
         <div class="form-group">
@@ -12,6 +12,7 @@
     </template>
 
     <template #footer>
+      <button type="button" class="btn btn-light" @click="cancel">Cancelar</button>
       <button type="submit" class="btn btn-primary" @click="submitForm">Agregar</button>
     </template>
   </Modal>
@@ -29,6 +30,12 @@ export default {
         name: null
       },
       errors: {}
+    }
+  },
+  props: {
+    showAdd: {
+      type: Boolean,
+      required: true
     }
   },
   components: {
@@ -53,7 +60,15 @@ export default {
           name: '',
         };
         this.errors = {};
+        this.$emit('update:show-add', false);
       }
+    },
+    cancel() {
+      this.form = {
+        name: '',
+      };
+      this.errors = {};
+      this.$emit('update:show-add', false);
     },
     save() {
       const vm = this;
@@ -73,6 +88,9 @@ export default {
     ...mapGetters(['getBaseUrl']),
     baseUrl() {
       return this.getBaseUrl
+    },
+    isVisible() {
+      return this.showAdd;
     }
   },
 }

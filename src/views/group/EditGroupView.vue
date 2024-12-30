@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model:visible="show" title="Editar grupo">
+  <Modal v-if="isVisible" title="Editar grupo">
     <template #default>
       <form @submit.prevent="submitForm()" v-if="form">
         <div class="form-group">
@@ -12,6 +12,7 @@
     </template>
 
     <template #footer>
+      <button type="button" class="btn btn-light" @click="cancel">Cancelar</button>
       <button type="submit" class="btn btn-primary" @click="submitForm">Guardar</button>
     </template>
   </Modal>
@@ -28,7 +29,16 @@ export default {
       errors: {}
     }
   },
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    showEdit: {
+      type: Boolean,
+      required: true
+    }
+  },
   components: {
     Modal
   },
@@ -51,7 +61,15 @@ export default {
           name: '',
         };
         this.errors = {};
+        this.$emit('update:show-edit', false);
       }
+    },
+    cancel() {
+      this.form = {
+        name: '',
+      };
+      this.errors = {};
+      this.$emit('update:show-edit', false);
     },
     save() {
       const vm = this;
@@ -74,6 +92,9 @@ export default {
     },
     form() {
       return Object.assign({}, this.item);
+    },
+    isVisible() {
+      return this.showEdit;
     }
   },
 }
