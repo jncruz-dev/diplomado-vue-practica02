@@ -1,8 +1,18 @@
 <template>
-  <div v-if="isVisible" class="modal-overlay" @click.self="close">
-    <div class="modal-content">
-      <button class="modal-close" @click="close">&times;</button>
-      <slot></slot>
+  <div class="modal position-static d-block" @click.self="close">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ title }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <slot></slot>
+        </div>
+        <div class="modal-footer">
+          <slot name="footer"></slot>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,6 +23,10 @@ export default {
   props: {
     show: {
       type: Boolean,
+      required: true
+    },
+    title: {
+      type: String,
       required: true
     }
   },

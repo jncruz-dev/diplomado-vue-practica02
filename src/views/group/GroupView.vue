@@ -1,8 +1,7 @@
 <template>
   <div>
-    <Modal v-model:show="showModalAdd">
-      <AddGroupView />
-    </Modal>
+    <AddGroupView v-model:show="showModalAdd" @on-register="onAddGroup()" />
+    <EditGroupView v-model:show="showModalEdit" @on-update="onUpdateGroup()" :item="groupToEdit" />
 
     <h1>Lista Grupos</h1>
     <div>
@@ -44,8 +43,8 @@
           <td>{{ 1 + index }}</td>
           <td>{{ group.name }}</td>
           <td>
-            <div class="d-flex flex-row-reverse" style="gap: 2px;">
-              <button type="button" class="btn btn-sm btn-outline-dark">
+            <div class="d-flex justify-content-end" style="gap: 2px;">
+              <button type="button" class="btn btn-sm btn-outline-dark" @click="editGroup(group)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
@@ -55,7 +54,7 @@
                   <path d="M16 5l3 3" />
                 </svg>
               </button>
-              <button type="button" class="btn btn-sm btn-outline-danger">
+              <button type="button" class="btn btn-sm btn-outline-danger" @click="deleteGroup(group.id)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
@@ -77,8 +76,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Modal from '@/components/Modal.vue'
 import AddGroupView from './AddGroupView.vue'
+import EditGroupView from './EditGroupView.vue';
 
 export default {
   name: 'Group',
@@ -87,13 +86,14 @@ export default {
       currentPage: 1,
       showModalAdd: false,
       showModalEdit: false,
+      groupToEdit: null,
       groupsList: [],
       textToSearch: ''
     }
   },
   components: {
-    Modal,
-    AddGroupView
+    AddGroupView,
+    EditGroupView
   },
   methods: {
     getList() {
@@ -109,6 +109,35 @@ export default {
     },
     search() {
       this.getList();
+    },
+    onAddGroup() {
+      this.getList();
+      this.showModalAdd = false;
+      //this.$toast.show('Registro exitoso', 'success');
+    },
+    onUpdateGroup() {
+      this.getList();
+      this.showModalEdit = false;
+      this.groupToEdit = null;
+      //this.$toast.show('Edicion exitosa', 'info');
+    },
+    editGroup(group) {
+      this.groupToEdit = Object.assign({}, group);
+      this.showModalEdit = true;
+    },
+    deleteGroup(id) {
+      if (confirm("¿Esta Seguro de eliminar el registro?")) {
+        const vm = this;
+        this.axios.delete(this.baseUrl + "/groups/" + id)
+          .then(function (response) {
+            vm.getList();
+            //vm.$toast.show("Registro eliminado.", "danger");
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      }
+
     },
   },
   computed: {

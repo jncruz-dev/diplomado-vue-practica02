@@ -1,7 +1,7 @@
 <template>
-  <Modal v-model:visible="show" title="Agregar grupo">
+  <Modal v-model:visible="show" title="Editar grupo">
     <template #default>
-      <form @submit.prevent="submitForm()">
+      <form @submit.prevent="submitForm()" v-if="form">
         <div class="form-group">
           <label for="name" class="form-label">Name:</label>
           <input type="text" id="name" v-model="form.name" :class="{ 'is-invalid': errors.name }"
@@ -12,7 +12,7 @@
     </template>
 
     <template #footer>
-      <button type="submit" class="btn btn-primary" @click="submitForm">Agregar</button>
+      <button type="submit" class="btn btn-primary" @click="submitForm">Guardar</button>
     </template>
   </Modal>
 </template>
@@ -22,15 +22,13 @@ import { mapGetters } from 'vuex'
 import Modal from '@/components/Modal.vue';
 
 export default {
-  name: 'AddGroupView',
+  name: 'EditGroupView',
   data() {
     return {
-      form: {
-        name: null
-      },
       errors: {}
     }
   },
+  props: ['item'],
   components: {
     Modal
   },
@@ -57,10 +55,10 @@ export default {
     },
     save() {
       const vm = this;
-      this.axios.post(this.baseUrl + "/groups", this.form)
+      this.axios.patch(this.baseUrl + "/groups/" + this.item.id, this.form)
         .then(function (response) {
-          if (response.status == '201') {
-            vm.$emit('on-register', response.data);
+          if (response.status == '200') {
+            vm.$emit('on-update', response.data);
           }
           vm.groupsList = response.data;
         })
@@ -73,6 +71,9 @@ export default {
     ...mapGetters(['getBaseUrl']),
     baseUrl() {
       return this.getBaseUrl
+    },
+    form() {
+      return Object.assign({}, this.item);
     }
   },
 }
