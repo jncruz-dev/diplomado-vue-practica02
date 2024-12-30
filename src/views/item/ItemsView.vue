@@ -73,7 +73,7 @@
           <td>{{ 1 + index }}</td>
           <td>
             <div class="d-flex justify-content-center">
-              <button type="button" class="btn btn-sm btn-outline-primary">
+              <button type="button" class="btn btn-sm btn-outline-primary" @click="completeItem(item.id)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-check">
@@ -192,6 +192,17 @@ export default {
             console.error(error);
           });
       }
+    },
+    completeItem(id) {
+      const vm = this;
+      this.axios.delete(this.baseUrl + "/items/" + id)
+        .then(function (response) {
+          vm.getList();
+          //vm.$toast.show("Registro completado.", "danger");
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     },
   },
   computed: {
