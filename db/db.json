@@ -55,32 +55,28 @@
       "name": "Papa",
       "unit": "kg",
       "quantity": 1,
-      "groupId": 1,
-      "done": false
+      "groupId": 1
     },
     {
       "id": 2,
       "name": "Zanahoria",
       "unit": "kg",
       "quantity": 1,
-      "groupId": 1,
-      "done": false
+      "groupId": 1
     },
     {
       "id": 3,
       "name": "Manzana",
       "unit": "unit",
       "quantity": 4,
-      "groupId": 2,
-      "done": false
+      "groupId": 2
     },
     {
       "id": 4,
       "name": "Pollo",
       "unit": "kg",
       "quantity": 2,
-      "groupId": 3,
-      "done": false
+      "groupId": 3
     }
   ]
 }
